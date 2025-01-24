@@ -1,0 +1,81 @@
+admin_static/{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Budget{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'admin_static/css/budget.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- FONT AWESOME ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="wrapper">
+        <div class="container">
+            <div class="sub-container">
+                <!--Budget app-->
+                <div class="total-amount-container">
+                    <h3>Budget</h3>
+                    <p class="hide error" id="budget-error">Value cannot be empty or negative</p>
+                    <input 
+                        type="number"
+                        id="total-amount"
+                        placeholder="Enter Total Amount"/>
+                    <button class="submit" id="total-button">Set Budget</button>
+                </div>
+                <!--Expenditure-->
+                <div class="user-amount-container">
+                    <h3>Expenses</h3>
+                    <p class="hide error" id="product-title-error">Value cannot be empty</p>
+                    <input
+                        type="text" 
+                        class="product-title"
+                        id="product-title"
+                        placeholder="Enter Title of Product"
+                    />
+                    <input
+                        type="number" 
+                        id="user-amount"
+                        placeholder="Enter Cost of Product"
+                    />
+                    <button class="submit" id="check-amount">Check Amount</button>
+                </div>
+            </div>
+            <!--OUTPUT-->
+            <div class="output-container flex-space">
+                <div>
+                    <p>Total Budget</p>
+                    <span id="amount">0</span>
+                </div>
+                <div>
+                    <p>Expenses</p>
+                    <span id="expenditure-value">0</span>
+                </div>
+                <div>
+                    <p>Balance</p>
+                    <span id="balance-amount">0</span>
+                </div>
+            </div>
+
+        </div>
+        <!--List-->
+        <div class="list">
+            <h3>Expenses List</h3>
+            <div class="list-container" id="list"></div>
+        </div>
+    </div>
+    <div id="budget-popup" class="popup hide">
+        <div class="popup-content">
+            <p>Warning: Changing the budget will reset all expenses. Do you want to continue?</p>
+            <button id="cancel-change" class="popup-button">Cancel</button>
+            <button id="accept-change" class="popup-button">Accept</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'admin_static/js/budget.js' %}"></script>
+{% endblock %}

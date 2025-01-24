@@ -1,0 +1,235 @@
+/* Reset some default styles */
+body, html {
+  
+ 
+    background-color: #f4f4f4;
+    color: #333;
+    height: 100%;
+}
+
+/* Main container */
+.app {
+    display: flex;
+    height: 100vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.app-one {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar styling */
+.side {
+    width: 30%;
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.side-one {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #34495e;
+}
+
+.heading-avatar-icon img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.heading-dot i,
+.heading-compose i {
+    color: #ecf0f1;
+    cursor: pointer;
+}
+
+.searchBox {
+    padding: 20px 0;
+}
+
+.searchBox-inner {
+    display: flex;
+    align-items: center;
+}
+
+.searchBox .form-control {
+    background-color: #34495e;
+    border: none;
+    color: #ecf0f1;
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+.searchBox .form-control:focus {
+    background-color: #34495e;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.searchBox .glyphicon-search {
+    color: #ecf0f1;
+}
+
+.sideBar {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.sideBar-body {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #34495e;
+    transition: background-color 0.3s;
+}
+
+.sideBar-body:hover {
+    background-color: #34495e;
+}
+
+.sideBar-avatar {
+    margin-right: 15px;
+}
+
+.sideBar-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.sideBar-main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sideBar-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #ecf0f1;
+}
+
+.sideBar-time {
+    font-size: 12px;
+    color: #bdc3c7;
+}
+
+/* Chat area styling */
+.chat-area {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ecf0f1;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-bottom: 1px solid #bdc3c7;
+}
+
+.message-body {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.message-main-sender {
+    display: flex;
+    flex-direction: column;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 60%;
+    align-self: flex-end;
+}
+
+.sender .message-text {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.sender .message-time {
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: right;
+    opacity: 0.7;
+}
+
+/* Input area styling */
+.chat-input {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ecf0f1;
+    border-top: 1px solid #bdc3c7;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+}
+
+.chat-input input[type="text"]:focus {
+    outline: none;
+}
+
+.chat-input button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: #3498db;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.chat-input button:hover {
+    background-color: #2980b9;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .side {
+        display: none;
+    }
+
+    .chat-area {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .chat-input input[type="text"] {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .chat-input button {
+        padding: 10px 15px;
+    }
+}

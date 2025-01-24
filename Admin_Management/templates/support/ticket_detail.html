@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ticket-Details{% endblock %}
+{% block extra_css %}
+<style>
+    .main-heading {
+        margin: 10px;
+        text-align: center;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .media.content-section {
+        padding: 3%;
+        max-width: 95%;
+        margin: auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .media-body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .article-metadata {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+    }
+
+    .article-metadata h2 {
+        font-weight: bold;
+        margin: 0;
+        text-transform: uppercase;
+        color: #1c1e21;
+    }
+
+    .article-title {
+        font-size: 24px;
+        color: #343a40;
+        margin-top: 10px;
+        margin-bottom: 15px;
+    }
+
+    .article-description {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #495057;
+    }
+
+    .mod {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    /* Dropdown Menu Styling */
+    .status-dropdown {
+        width: 100%;
+        max-width: 20%;
+        padding: 10px;
+        font-size: 16px;
+        color: #343a40;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .status-dropdown:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+        outline: none;
+    }
+
+    /* Button Styling */
+    .update-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .update-btn:hover {
+        background-color: #0056b3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="main-heading">Ticket Details</h2>
+<div class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h2>{{ ticket.user.username }}</h2>
+        </div>
+        <p class="article-title">Issue: 
+            {% if ticket.issue_type == 'other' %}
+                {{ ticket.custom_issue }}
+            {% else %}
+                {{ ticket.get_issue_type_display }}
+            {% endif %}
+        </p>
+        <p class="article-description">Description: {{ ticket.description }}</p>
+        <p class="mod">Current Status: {{ ticket.status }}</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="status">Update Status:</label>
+            <select name="status" class="status-dropdown">
+                <option value="Arrived" {% if ticket.status == 'arrived' %}selected{% endif %}>Arrived</option>
+                <option value="Working" {% if ticket.status == 'working' %}selected{% endif %}>Working</option>
+                <option value="Solved" {% if ticket.status == 'solved' %}selected{% endif %}>Solved</option>
+            </select>
+            <button type="submit" class="update-btn">Update</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

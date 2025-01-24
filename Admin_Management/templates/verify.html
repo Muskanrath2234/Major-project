@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP</title>
+    <!-- jQuery Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    
+    <div class="container">
+        <h2>Verify OTP</h2>
+        <form id="otpForm" method="post">
+            {% csrf_token %}
+            <label for="otp">Enter OTP:</label>
+            <input type="text" name="otp" id="otp" required>
+            <button type="submit">Verify</button>
+        </form>
+        {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#otpForm').on('submit', function(e) {
+            e.preventDefault();  // Prevent the form from submitting traditionally
+
+            let otp = $('#otp').val();
+
+            $.ajax({
+                type: "POST",
+                url: '{% url "verifyEmail" %}',  // URL to the view handling OTP verification
+                data: {
+                    'otp': otp,
+                    'original_otp': "{{ otp }}",  // The OTP sent via email
+                    'username': "{{ username }}",
+                    'email': "{{ email }}",
+                    'password1': "{{ password1 }}",
+                    'password2': "{{ password2 }}",
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('User has been created successfully!');
+                        window.location.href = '/home';  // Redirect to the login page
+                    } else {
+                        alert(response.error);  // Show error if OTP is incorrect
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('An error occurred:', error);
+                    alert('Something went wrong, please try again.');
+                }
+            });
+        });
+    });
+</script>

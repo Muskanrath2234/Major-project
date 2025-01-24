@@ -1,0 +1,52 @@
+{% extends 'base1.html' %}
+
+
+{% block breadcrumb_items %}
+    <!-- Add specific breadcrumb items for this page -->
+    <li class="breadcrumb-item"><a href="{% url 'room_list' %}">Explore</a></li>
+{% endblock %}
+{% block content %}
+<div style="max-width: 1200px; margin: 0 auto; padding: 20px;">
+    <h2 style="text-align: center; color: #FD7792; margin-bottom: 40px;">Explore</h2>
+
+    <!-- Search Bar -->
+    <form method="get" action="{% url 'User_post_list' %}" style="margin-bottom: 20px; text-align: center;">
+        <input type="text" name="query" placeholder="Search by title or author..." style="padding: 12px; width: 100%; max-width: 400px; border: 1px solid #ddd; border-radius: 8px; margin-right: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); font-size: 16px;">
+        <button type="submit" style="padding: 12px 24px; background-color: #FD7792; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background-color 0.3s ease;">
+            Search
+        </button>
+    </form>
+
+    <!-- Create Post Button -->
+    <div style="text-align: center; margin-bottom: 40px;">
+        <a href="{% url 'User_create_post' %}" style="display: inline-block; padding: 12px 24px; background-color: #FD7792; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: none; transition: background-color 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            Create Post
+        </a>
+    </div>
+
+    <!-- Post List -->
+    <div>
+        <ul style="list-style-type: none; padding: 0; margin: 0;">
+            {% for post in posts %}
+            <li style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #ffffff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <h3 style="color: #FD7792; margin-bottom: 10px;">{{ post.title }}</h3>
+                <p style="margin-bottom: 10px;">{{ post.content }}</p>
+                {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 150px; height: auto; border-radius: 8px; margin-bottom: 10px;">
+                {% endif %}
+                <p style="margin-bottom: 10px;"><small>Posted by {{ post.user.username }} on {{ post.created_at }}</small></p>
+                
+                <div style="text-align: center;">
+                    {% if post.user == request.user %}  <!-- Check if the logged-in user is the owner of the post -->
+                        <a href="{% url 'User_update_post' post.pk %}" style="color: #FD7792; text-decoration: none; margin-right: 15px; font-weight: bold; border: 1px solid #8E235C; border-radius: 4px; padding: 8px 16px; transition: background-color 0.3s ease, color 0.3s ease;">Edit</a>
+                        <a href="{% url 'User_delete_post' post.pk %}" style="color: #FD7792; text-decoration: none; font-weight: bold; border: 1px solid #8E235C; border-radius: 4px; padding: 8px 16px; transition: background-color 0.3s ease, color 0.3s ease;">Delete</a>
+                    {% endif %}
+                </div>
+            </li>
+            {% empty %}
+            <li style="text-align: center; font-size: 18px; color: #333;">No posts found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+{% block extra_css %}
+<style>
+    .card-box {
+        background: var(--primary-color);
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .card-box .row {
+        display: flex;
+        align-items: center;
+    }
+    
+    .card-box img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+    
+    .card-box h4 {
+        color: var(--secondary-color);
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 10px;
+        text-transform: capitalize;
+    }
+    
+  
+    .card-box h4 .user{
+        color: var(--blue);
+        font-size:25px;
+        
+        font-weight:600px;
+    }
+    
+    .card-box p {
+        color: var(--secondary-color);
+        font-size: 18px;
+        max-width: 600px;
+      
+    }
+    
+
+main {
+    
+    padding: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.welcome {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+
+
+/* Styling for the stats section */
+.stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    margin-top:20px;
+    margin:10px;
+    background-color: var(--primary-color);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color:var(--secondary-color);
+}
+
+.card p {
+    font-size: 1em;
+    color:var(--secondary-color);
+}
+
+/* Hover effect for cards */
+.card:hover {
+   
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+</style>
+{% endblock%}
+{% block content %}
+<main>
+    <div class="card-box">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{% static 'admin_static/img/banner-img.png' %}" alt="">
+            </div>
+            <div class="col-md-8">
+                <h4 class="font-20 weight-500 mb-10 text-capitalize">
+                    Welcome back <div class="user">Johnny Brown!</div>
+                </h4>
+                <p class="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde hic non repellendus debitis iure, doloremque assumenda. Autem modi, corrupti, nobis ea iure fugiat, veniam non quaerat mollitia animi error corporis.</p>
+            </div>
+        </div>
+    </div>
+    
+    <section class="stats">
+        <div class="card">
+            <h2><a href="{% url 'view_all_users' %}">Users</a></h2>
+            <p>Manage all users from here</p>
+        </div>
+        <div class="card">
+            <h2><a href="#">Room</a></h2>
+            <p>View and manage rooms</p>
+        </div>
+        <div class="card">
+            <h2><a href="#">Communication</a></h2>
+            <p>Communicate with users</p>
+        </div>
+        <div class="card">
+           <h2><a href="#">Support</a></h2>
+            <p>Handle support tickets and leave requests</p>
+        </div>
+    </section>
+</main>
+{% endblock %}

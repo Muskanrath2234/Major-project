@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% block title %}Settings{% endblock %}
+{% load static %}
+{% block extra_css %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .navigation {
+        display: flex;
+        justify-content: space-around;
+        background-color: #f8f9fa;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    .navigation .list-group-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+        margin: 0 5px;
+    }
+    .navigation .list-group-item:hover {
+        background-color: #f1f1f1;
+    }
+    .navigation .list-group-item.active {
+        background-color: #007bff;
+        color: #fff;
+    }
+    .content {
+        padding-top: 20px;
+    }
+    .tab-content {
+        display: none;
+    }
+    .tab-content.active {
+        display: block;
+    }
+    h3 {
+        margin-top: 0;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-group textarea {
+        resize: vertical;
+        height: 100px;
+    }
+    .form-group button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .form-group button:hover {
+        background-color: #0056b3;
+    }
+    .warning {
+        color: #dc3545;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="navigation list-group list-group-flush" role="tablist">
+       
+        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#password" role="tab">
+            Password
+        </a>
+       
+        <a class="list-group-item list-group-item-action" data-toggle="list" href="#delete-account" role="tab">
+            Delete account
+        </a>
+    </div>
+
+    <div class="content">
+        
+        
+
+           <!-- Display messages here -->
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="current_password">Current Password:</label>
+        <input type="password" id="current_password" name="current_password" required>
+    </div>
+    <div>
+        <label for="new_password">New Password:</label>
+        <input type="password" id="new_password" name="new_password" required>
+    </div>
+    <div>
+        <label for="confirm_password">Confirm New Password:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+    </div>
+    <button type="submit">Change Password</button>
+</form>
+
+
+        <!-- Delete Account Tab Content -->
+        <div id="delete-account" class="tab-content">
+            <h3>Delete Account</h3>
+            <p class="warning">Warning: Deleting your account is permanent and cannot be undone.</p>
+            <form>
+                <div class="form-group">
+                    <label for="confirm-delete">Type "DELETE" to confirm:</label>
+                    <input type="text" id="confirm-delete" name="confirm-delete" placeholder="Type DELETE">
+                </div>
+                <div class="form-group">
+                    <button type="submit">Delete Account</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Add other tab contents similarly -->
+        <!-- Privacy and safety, Email notifications, etc. -->
+    </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+    const tabs = document.querySelectorAll('.list-group-item');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Remove active class from all tabs
+            tabs.forEach(item => item.classList.remove('active'));
+
+            // Add active class to the clicked tab
+            this.classList.add('active');
+
+            // Hide all tab content
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Show the content of the clicked tab
+            const target = this.getAttribute('href');
+            document.querySelector(target).classList.add('active');
+        });
+    });
+</script>
+{% endblock %}

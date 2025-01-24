@@ -1,0 +1,107 @@
+{% extends 'base1.html' %}
+{% load static %}
+{% block breadcrumb_items %}
+    <li class="breadcrumb-item active" aria-current="page">Home</li>
+{% endblock %}
+{% block extra_css %}
+<style>
+    .login-container {
+        display: flex;
+        min-height: 80vh;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+
+    .login-form {
+        width: 50%;
+        padding: 2rem;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-form h2 {
+        margin-bottom: 1.5rem;
+        color: #8E235C;
+    }
+
+    .welcome-message {
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .login-form ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .login-form li {
+        margin-bottom: 1rem;
+    }
+
+    .login-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+
+    .login-form input[type="text"],
+    .login-form input[type="password"],
+    .login-form select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .signup-button {
+        background-color: #FD7792;
+        color: #fff;
+        padding: 0.75rem;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1rem;
+    }
+
+    .signup-button:hover {
+        background-color: #d9657b;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-container">
+    <div class="login-image"></div>
+    <div class="login-form">
+        <h2>Login</h2>
+        <div class="welcome-message">Welcome to PWE</div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <ul>
+                <li>
+                    <label for="role">Login as</label>
+                    <select name="role" id="role">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Username">
+                </li>
+                <li>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </li>
+                <li>
+                    <button class="signup-button" type="submit">Log in</button>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'admin_static/css/base.css' %}">
+
+	<title>{% block title %}AdminSite{% endblock %}</title>
+    {% block extra_css %}
+	<style>
+		#icon {
+			width: 30px;
+			cursor: pointer;
+		}
+	   /* Style the breadcrumb block */
+     /* Your breadcrumb specific styles */
+        #breadcrumb {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .breadcrumb {
+            display: flex;
+            padding: 0;
+            list-style: none;
+            margin-bottom: 0;
+        }
+
+        .breadcrumb-item {
+            font-size: 16px;
+            font-weight: 500;
+            margin-right: 15px;
+        }
+
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+</style>
+{% endblock %}
+
+</head>
+<body>
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+		<a href="{% url 'home' %}" class="brand"><i class='bx bxs-smile icon'></i> AdminSite</a>
+		<ul class="side-menu">
+			<li><a href="{% url 'home' %}" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a></li>
+			<li class="divider" data-text="User And Post">User And Post</li>
+			<li>
+				<a href="#"><i class='bx bxs-user-circle icon'></i> User <i class='bx bx-chevron-right icon-right'></i></a>
+				<ul class="side-dropdown">
+					<li><a href="{% url 'register' %}">Add User</a></li>
+					<li><a href="{% url 'view_all_users' %}">View All Users</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#"><i class='bx bxs-comment-dots icon'></i> Communication <i class='bx bx-chevron-right icon-right'></i></a>
+				<ul class="side-dropdown">
+					<li><a href="{% url 'admin_post_list' %}">Posts</a></li>
+					
+					<li><a href="#">Chat</a></li>
+                    
+
+				</ul>
+			</li>
+			<li class="divider" data-text="Room And Support">Room And Support</li>
+			
+			<li><a href="#"><i class='bx bxs-bed icon'></i> Room</a></li>
+			
+			<li><a href="#"><i class='bx bxs-bed icon'></i> Room Book</a></li>
+
+			<li><a href="#"><i class='bx bxs-bed icon'></i> facility List</a></li>
+			<li class="divider" data-text="User And Post">Support</li>
+			<li>
+				<a href="#"><i class='bx bx-support icon'></i> Support <i class='bx bx-chevron-right icon-right'></i></a>
+				<ul class="side-dropdown">
+					<li><a href="#">Ticket list</a></li>
+					
+			
+					
+					{% comment %} <li><a href="#">ticket detail</a></li> {% endcomment %}
+					
+				</ul>
+			</li>
+		</ul>
+		<div class="ads">
+			<div class="wrapper">
+				<a href="#" class="btn-upgrade">Add PG</a>
+				<p>Add NEW <span>PGS </span>Make Your<br> Work <span>Easy</span></p>
+			</div>
+		</div>
+	</section>
+	<!-- SIDEBAR -->
+
+	<!-- NAVBAR -->
+	<section id="content">
+		<nav>
+			<i class='bx bx-menu toggle-sidebar'></i>
+			<form action="#">
+				<div class="form-group">
+					<input type="text" placeholder="Search...">
+					<i class='bx bx-search icon'></i>
+				</div>
+			</form>
+			
+			
+	
+
+			<span class="divider"></span>
+			<div class="profile">
+				<img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+				<ul class="profile-link">
+					<li>
+						<a href="{% url 'view_profile' %}">
+							<i class='bx bxs-user-circle icon'></i> Profile
+						</a>
+					</li>
+					
+					<li class="divider"></li>
+					<li>
+						<a class="logout" href="{% url 'user_logout' %}">
+							<i class='bx bxs-log-out-circle icon'></i> Logout
+						</a>
+					</li>
+				</ul>
+				
+			</div>
+			
+		</nav>
+
+<section id="breadcrumb">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% block breadcrumb %}
+                <!-- Default breadcrumb content, if not overridden -->
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            {% endblock %}
+        </ol>
+    </nav>
+</section>
+
+
+
+		<!-- MAIN -->
+		<main>
+		
+			{% block content %}
+			
+			{% endblock %}
+		</main>
+		<!-- MAIN -->
+	</section>
+
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+	<script src="{% static 'admin_static/js/base.js' %}"></script>
+	{% block extra_js %}
+	<script>
+
+		var icon = document.getElementById("icon");
+		icon.onclick = function(){
+		  document.body.classList.toggle("dark-theme");
+		  
+		  if(document.body.classList.contains("dark-theme")){
+			icon.src= "{% static 'admin_static/img/sun.png' %}";
+		  }
+		  else{
+			 icon.src="{% static 'admin_static/img/moon.png' %}" ;
+		  }
+		
+		}
+		
+	  
+	  </script>
+	{% endblock %}
+</body>
+</html>

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+{% block extra_css %}
+
+<style>
+    /* Style the form container */
+#register-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f7f9fd;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style form elements */
+#register-form h2 {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 20px;
+}
+
+#register-form label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+#register-form input[type="text"],
+#register-form input[type="email"],
+#register-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Style the button */
+.register-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Add some transition effects */
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+}
+
+</style>
+{% endblock%}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Register</li>
+{% endblock %}
+
+{% block content %}
+<h2>Register</h2>
+<form method="post" id="register-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="register-btn">Register</button>
+</form>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+document.getElementById('register-form').addEventListener('submit', function(event) {
+    let formValid = true;
+    const inputs = this.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+
+    inputs.forEach(input => {
+        if (input.value.trim() === '') {
+            formValid = false;
+            input.style.borderColor = 'red';
+        } else {
+            input.style.borderColor = '#ddd';
+        }
+    });
+
+    if (!formValid) {
+        event.preventDefault();
+        alert('Please fill out all fields.');
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,266 @@
+body, html {
+    
+    font-family: 'Playfair Display', serif;
+    height: 100%;
+}
+
+/* Main container */
+.app {
+    display: flex;
+    height: 100vh;
+   width:100%;
+    margin: 0 auto;
+    padding:0px;
+    background-color: #f4f4f4;
+}
+.side-nav {
+    
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0;
+    padding-right: 10px;
+    height: 100vh; /* Full height of the viewport */
+    border-left: 1px solid #ddd; 
+}
+
+.side-nav .nav-icon {
+    cursor: pointer;
+    font-size: 22px;
+    color: #999;
+}
+
+.side-nav .nav-icon:hover {
+    color: #333;
+}
+
+/* Container for the last two icons */
+.bottom-icons {
+    margin-top: auto; /* Push this container to the bottom */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bottom-icons .nav-icon {
+    margin-bottom: 20px;
+}
+
+.side-nav .nav-icon:hover {
+    color: #333;
+}
+
+
+
+.app-one {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar styling */
+.side {
+    width: 30%;
+    background-color:  #fff;
+    color: #0a0a0a;
+    position: relative; 
+    border-left: 1px solid #ddd; 
+    
+       
+} 
+
+.sidebar-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+}
+
+.sidebar-text {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+
+.side-one {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+
+.heading-dot i,
+.heading-compose i {
+    margin:0px 0px 0px 10px;
+    color: #424242;
+    cursor: pointer;
+    font-size:20px;
+}
+
+.searchBox {
+    padding: 20px 0;
+}
+
+
+.searchBox .form-control {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+    color: #495057;
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.searchBox .form-control:focus {
+    background-color: #f8f9fa;
+
+    box-shadow: none;
+}
+
+.searchBox .glyphicon-search {
+    color: #424242;
+    font-weight:600;
+
+}
+
+.sideBar {
+  
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.sideBar-body {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+    border-left: 2px solid #424242; /* Subtle vertical line */
+    box-shadow: none; 
+    
+}
+/* If there's any custom styling on the scrollbar, make it more subtle */
+.sideBar {
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: #ccc transparent; /* For Firefox */
+}
+/* For Webkit browsers like Chrome */
+.sideBar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sideBar::-webkit-scrollbar-thumb {
+    background-color: #ccc; 
+    border-radius: 10px;
+}
+
+.sideBar-body:hover {
+    background-color: #F8ECFF;
+}
+
+.sideBar-avatar {
+    margin-right: 15px;
+}
+
+.sideBar-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.sideBar-main {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sideBar-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #0a0a0a;
+}
+
+.sideBar-time {
+    font-size: 12px;
+    color: #424242;
+}
+/* Align dropdown menu directly below the icon */
+.dropdown-menu {
+    top: 18px; /* Adjust this value if necessary to align perfectly */
+    right: 0;
+    left: auto;
+    min-width: 120px; /* Set the width according to your content */
+}
+
+/* Optionally, adjust spacing between the icon and dropdown */
+.heading-dot .fa {
+    margin-bottom: 5px; /* Add some space below the icon */
+}
+
+
+/* Chat area styling */
+.chat-area {
+    
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 10%; 
+    background-color: #F8F2FF;
+    justify-content: flex-start; /* Align content to the top */
+    align-items: center;
+    
+}
+.chat-area img {
+    margin: 20px;
+    width: 600px; /* Set the width to 600px */
+    height: 350px; /* Set the height to 800px */
+    display: block; /* Remove any space below the image */
+    object-fit: cover; /* Ensure the image covers the entire area */
+    margin: 0 auto; /* Center the image horizontally */
+}
+
+
+
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .side {
+        display: none;
+    }
+
+    .chat-area {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    
+    /* Image styling */
+    .sidebar-image {
+        width: 200px; /* Adjust the width as needed */
+        height: 100%;
+        background-color: #fff; /* White background */
+        background-size: cover;
+        background-position: right;
+    }
+    
+}

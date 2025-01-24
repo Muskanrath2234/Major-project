@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+       
+        /* Profile card container */
+        .profile-container {
+            margin:auto;
+            margin-top:12%;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            text-align: center;
+            color: #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative background circle */
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background-color: #007bff;
+            border-radius: 50%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+       
+        /* Username styling */
+        .profile-username {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Profile info styling */
+        .profile-info {
+            font-size: 16px;
+            color: #555;
+            position: relative;
+            z-index: 1;
+            line-height: 1.5;
+        }
+
+        /* Profile label styling */
+        .profile-label {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 20px;
+            }
+
+            .profile-image {
+                width: 50px;
+                height: 50px;
+
+            }
+
+            .profile-username {
+                font-size: 20px;
+            }
+
+            .profile-info {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <img src="{{ profile_img_url }}" alt="Profile Image" class="profile-image">
+    <h1 class="profile-username">{{ username }}</h1>
+    <div class="profile-info">
+        <p><span class="profile-label">Email:</span> {{ email }}</p>
+        <p><span class="profile-label">Contact Number:</span> {{ contact_number }}</p>
+        <p><span class="profile-label">Address:</span> {{ address }}</p>
+        <p><span class="profile-label">Age:</span> {{ age }}</p>
+    </div>
+</div>
+
+</body>
+</html>

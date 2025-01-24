@@ -1,0 +1,163 @@
+{% extends 'base1.html' %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="{% url 'User_post_list' %}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+{% endblock %}
+{% block content %}
+<style>
+    /* Center Alignment for Profile Section */
+    .profile-container-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 100px); /* Adjust height minus header and footer */
+    }
+
+    /* Profile Container */
+    .profile-container {
+        max-width: 600px;
+        width: 90%;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Header */
+    .profile-header img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+    .profile-header h2 {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Profile Details */
+    .profile-details p {
+        font-size: 18px;
+        color: #555;
+        margin: 8px 0;
+        line-height: 1.6;
+    }
+
+    .profile-details strong {
+        color: #333;
+    }
+
+    /* Edit Button */
+    .edit-button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #8e235c;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+    .edit-button:hover {
+        background-color: #fd7792;
+    }
+
+    /* Input Fields */
+    .profile-form label {
+        display: block;
+        text-align: left;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .profile-form input,
+    .profile-form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .profile-form button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #8e235c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .profile-form button:hover {
+        background-color: #fd7792;
+    }
+</style>
+
+<!-- Wrapper for Center Alignment -->
+<div class="profile-container-wrapper">
+    <!-- Profile Content -->
+    <div class="profile-container">
+        {% if not request.GET.edit %}
+        <!-- View Mode -->
+        <div class="profile-header">
+            <img src="{{ profile.image.url }}" alt="Profile Picture">
+            <h2>{{ profile.full_name }}'s Profile</h2>
+        </div>
+
+        <!-- Profile Details -->
+        <div class="profile-details">
+            <p><strong>Age:</strong> {{ profile.age }}</p>
+            <p><strong>Room Number:</strong> {{ profile.room_number }}</p>
+            <p><strong>Bed Number:</strong> {{ profile.bed_number }}</p>
+            <p><strong>Mobile Number:</strong> {{ profile.mobile_number }}</p>
+            <p><strong>Aadhar Card:</strong> {{ profile.aadhar_card }}</p>
+            <p><strong>PAN Card:</strong> {{ profile.pan_card }}</p>
+            <p><strong>Bio:</strong> {{ profile.bio }}</p>
+        </div>
+
+        <!-- Edit Profile Button -->
+        <a href="?edit=true" class="edit-button">Edit Profile</a>
+        {% else %}
+        <!-- Edit Mode -->
+        <form method="post" class="profile-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="full_name">Full Name:</label>
+            <input type="text" name="full_name" value="{{ profile.full_name }}">
+
+            <label for="age">Age:</label>
+            <input type="number" name="age" value="{{ profile.age }}">
+
+            <label for="room_number">Room Number:</label>
+            <input type="text" name="room_number" value="{{ profile.room_number }}">
+
+            <label for="bed_number">Bed Number:</label>
+            <input type="text" name="bed_number" value="{{ profile.bed_number }}">
+
+            <label for="mobile_number">Mobile Number:</label>
+            <input type="text" name="mobile_number" value="{{ profile.mobile_number }}">
+
+            <label for="aadhar_card">Aadhar Card:</label>
+            <input type="text" name="aadhar_card" value="{{ profile.aadhar_card }}">
+
+            <label for="pan_card">PAN Card:</label>
+            <input type="text" name="pan_card" value="{{ profile.pan_card }}">
+
+            <label for="bio">Bio:</label>
+            <textarea name="bio">{{ profile.bio }}</textarea>
+
+            <button type="submit">Save Changes</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
