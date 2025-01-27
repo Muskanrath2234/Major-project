@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary:#FD7792;
+    --primary: #ff5733;
     --light: #F1F8FF;
     --dark: #0F172B;
 }
@@ -486,7 +486,7 @@ body {
 }
 
 .footer-subscribe button {
-  background-color: #ff6b81; /* Button background color */
+  background-color:  #e74c3c;  /* Button background color */
   color: #fff; /* Button text color */
   border: none;
   padding: 10px 20px;
@@ -508,7 +508,7 @@ body {
 }
 
 .social-links a:hover {
-  color: #ff6b81; /* Social link hover color */
+  color:  #ff5733; /* Social link hover color */
 }
 
 /* Copyright Section */

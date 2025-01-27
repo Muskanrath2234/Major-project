@@ -54,7 +54,7 @@
     .mod {
         margin-top: 20px;
         font-size: 18px;
-        color: #007bff;
+        color: #ff5733;
         font-weight: bold;
     }
 
@@ -72,7 +72,20 @@
     }
 
     .status-dropdown:focus {
-        border-color: #007bff;
+        border-color: # Common issue choices
+        ISSUE_CHOICES = [
+            ('Company Policies', 'Company Policies'),            # Issues related to company rules and policies
+            ('Salary Delays', 'Salary Delays'),                  # Issues related to delayed salary payments
+            ('Workload Pressure', 'Workload Pressure'),          # Issues related to excessive workload
+            ('Workplace Harassment', 'Workplace Harassment'),    # Issues related to harassment or discrimination
+            ('Software Bugs', 'Software Bugs'),                  # Issues in software or internal tools
+            ('Technical Support', 'Technical Support'),          # Issues with tech support or IT department
+            ('Job Role Mismatch', 'Job Role Mismatch'),          # Job role not matching the job description
+            ('Project Deadlines', 'Project Deadlines'),          # Problems meeting deadlines or unrealistic expectations
+            ('Performance Reviews', 'Performance Reviews'),      # Issues related to biased performance reviews
+            ('Team Collaboration', 'Team Collaboration')         # Issues with team dynamics or cooperation
+        ]
+        
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
         outline: none;
     }
@@ -83,7 +96,7 @@
         padding: 10px 20px;
         font-size: 16px;
         color: #fff;
-        background-color: #007bff;
+        background-color:#ff5733;
         border: none;
         border-radius: 5px;
         cursor: pointer;
@@ -91,7 +104,7 @@
     }
 
     .update-btn:hover {
-        background-color: #0056b3;
+        background-color: #ff5733;
     }
 </style>
 {% endblock %}

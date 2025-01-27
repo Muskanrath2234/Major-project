@@ -24,5 +24,8 @@ urlpatterns = [
     path('', include('Base.urls')),
     path('admin_app', include('Admin_Management.urls')),
     path('Post', include('Post.urls')),
+    path('chat', include('chat.urls')),
+    path('Ticket_Management', include('Ticket_Management.urls')),
+    path('Job_Management', include('Job_Management.urls')),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

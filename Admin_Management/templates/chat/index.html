@@ -1,3 +1,7 @@
+ {% comment %} This error occurs because the 'chat_room' table does not exist in the database, likely due to missing or un-applied migrations. {% endcomment %}
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
@@ -15,7 +19,7 @@
         .home-button {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #CBC3E3; /* Button color */
+            background-color: #ff5733;/* Button color */
             color: white;
             text-align: center;
             text-decoration: none;
@@ -51,7 +55,7 @@
                                     {% if user.is_superuser %}
                                         <li><a href="{% url 'home' %}">Back To Home</a></li> <!-- Admin ke liye -->
                                     {% else %}
-                                        <li><a href="{% url 'User_post_list' %}">Back To Home</a></li> <!-- User ke liye -->
+                                        <li><a href="{% url 'admin_post_list' %}">Back To Home</a></li> <!-- User ke liye -->
                                     {% endif %}
                                 </ul>
                             </div>

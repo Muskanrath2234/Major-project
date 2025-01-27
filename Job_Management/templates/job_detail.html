@@ -1,0 +1,66 @@
+{% extends 'base1.html' %}
+{% block title %}{{ job.title }} Details{% endblock %}
+{% block content %}
+<div class="job-details-container">
+    <h2 class="job-title">{{ job.title }}</h2>
+    <div class="job-details">
+        <p><strong>Location:</strong> {{ job.job_location }}</p>
+        <p><strong>Vacancies:</strong> {{ job.vacancy }}</p>
+        <p><strong>Experience Required:</strong> {{ job.experience }}</p>
+        <p><strong>Salary:</strong> {{ job.salary }}</p>
+        <p><strong>Deadline:</strong> {{ job.application_deadline }}</p>
+    </div>
+    <a href="{% url 'apply_job' job.id %}" class="apply-btn">Apply Now</a>
+</div>
+
+<style>
+    /* Container Styling */
+    .job-details-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+        color: #2c3e50;
+    }
+
+    /* Title Styling */
+    .job-title {
+        font-size: 2rem;
+        color: #ff5733;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Job Details */
+    .job-details p {
+        font-size: 1rem;
+        margin: 10px 0;
+        line-height: 1.6;
+    }
+
+    .job-details p strong {
+        color: #ff5733;
+    }
+
+    /* Apply Button */
+    .apply-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #ff5733;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    
+</style>
+{% endblock %}

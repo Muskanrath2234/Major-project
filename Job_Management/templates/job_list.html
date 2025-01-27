@@ -1,0 +1,93 @@
+{% extends 'base1.html' %}
+{% block title %}Job List{% endblock %}
+{% block content %}
+<div class="job-list-container">
+    <h2 class="section-title">Available Jobs</h2>
+    <div class="job-cards">
+        {% for job in jobs %}
+        <div class="job-card">
+            <h3 class="job-title">{{ job.title }}</h3>
+            <p class="job-info">
+                <span><strong>Location:</strong> {{ job.job_location }}</span><br>
+                <span><strong>Deadline:</strong> {{ job.application_deadline }}</span>
+            </p>
+            <a href="{% url 'job_detail' job.id %}" class="view-details-btn">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* General Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Container Styling */
+    .job-list-container {
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    /* Job Cards */
+    .job-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .job-card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .job-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .job-title {
+        font-size: 1.8rem;
+        color: #ff5733;
+        margin-bottom: 15px;
+    }
+
+    .job-info {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .view-details-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ff5733;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 5px;
+        
+    }
+
+    .view-details-btn:hover {
+        background-color: #e74c3c;
+    }
+</style>
+{% endblock %}

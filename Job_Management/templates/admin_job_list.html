@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Job List{% endblock %}
+{% block content %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #ff5733;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .btn {
+            padding: 8px 12px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+        .btn-edit {
+            background-color: #ff5733;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+        }
+        .btn-view {
+            background-color:#ff5733;
+        }
+        .add-job {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #ff5733;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin - Job List</h1>
+    <a href="{% url 'admin_add_job' %}" class="add-job">Add New Job</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Published On</th>
+                <th>Vacancies</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{ job.title }}</td>
+                <td>{{ job.published_on }}</td>
+                <td>{{ job.vacancy }}</td>
+                <td>
+                    <a href="{% url 'admin_edit_job' job.id %}" class="btn btn-edit">Edit</a>
+                    {% comment %} <a href="{% url 'admin_delete_job' job.id %}" class="btn btn-delete">Delete</a> {% endcomment %}
+                    <a href="{% url 'admin_view_applications' job.id %}" class="btn btn-view">View Applications</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No jobs available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

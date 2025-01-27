@@ -15,38 +15,7 @@
 			width: 30px;
 			cursor: pointer;
 		}
-	   /* Style the breadcrumb block */
-     /* Your breadcrumb specific styles */
-        #breadcrumb {
-            background-color: #f8f9fa;
-            padding: 15px 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin: 20px 0;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .breadcrumb {
-            display: flex;
-            padding: 0;
-            list-style: none;
-            margin-bottom: 0;
-        }
-
-        .breadcrumb-item {
-            font-size: 16px;
-            font-weight: 500;
-            margin-right: 15px;
-        }
-
-        .breadcrumb-item a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .breadcrumb-item.active {
-            color: #6c757d;
-        }
+	   
 </style>
 {% endblock %}
 
@@ -70,37 +39,33 @@
 				<ul class="side-dropdown">
 					<li><a href="{% url 'admin_post_list' %}">Posts</a></li>
 					
-					<li><a href="#">Chat</a></li>
+					<li><a href="{% url 'index' %}">Chat</a></li>
                     
 
 				</ul>
 			</li>
-			<li class="divider" data-text="Room And Support">Room And Support</li>
+			<li class="divider" data-text="Jobs And Support">Jobs And Support</li>
 			
-			<li><a href="#"><i class='bx bxs-bed icon'></i> Room</a></li>
+			<li ><a href="{% url 'admin_job_list'%}"><i class='bx bx-briefcase'></i>Manage Jobs</a></li>
 			
-			<li><a href="#"><i class='bx bxs-bed icon'></i> Room Book</a></li>
+			
 
-			<li><a href="#"><i class='bx bxs-bed icon'></i> facility List</a></li>
+			<li><a href="#"><i class='bx bxs-customize'></i>Services</a></li>
 			<li class="divider" data-text="User And Post">Support</li>
 			<li>
 				<a href="#"><i class='bx bx-support icon'></i> Support <i class='bx bx-chevron-right icon-right'></i></a>
 				<ul class="side-dropdown">
-					<li><a href="#">Ticket list</a></li>
+					<li><a href="{% url 'ticket_list' %}">Ticket list</a></li>
 					
-			
+					
+					
 					
 					{% comment %} <li><a href="#">ticket detail</a></li> {% endcomment %}
 					
 				</ul>
 			</li>
 		</ul>
-		<div class="ads">
-			<div class="wrapper">
-				<a href="#" class="btn-upgrade">Add PG</a>
-				<p>Add NEW <span>PGS </span>Make Your<br> Work <span>Easy</span></p>
-			</div>
-		</div>
+		
 	</section>
 	<!-- SIDEBAR -->
 
@@ -120,7 +85,8 @@
 
 			<span class="divider"></span>
 			<div class="profile">
-				<img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="">
+				<img src="{% static 'admin_static/img/profile.jpg' %}" alt="Profile">
+
 				<ul class="profile-link">
 					<li>
 						<a href="{% url 'view_profile' %}">
@@ -140,16 +106,7 @@
 			
 		</nav>
 
-<section id="breadcrumb">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            {% block breadcrumb %}
-                <!-- Default breadcrumb content, if not overridden -->
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-            {% endblock %}
-        </ol>
-    </nav>
-</section>
+
 
 
 

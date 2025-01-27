@@ -86,7 +86,7 @@
         }
 
         .breadcrumb-item a {
-            color: #007bff;
+            color:  #ff5733;
             text-decoration: none;
         }
 
@@ -111,16 +111,16 @@
                             <a class="nav-link" href="#">Profile</a>
                         </li>
                          <li class="nav-item">
-                            <a class="nav-link" href="#">Explore</a>
+                            <a class="nav-link" href="{% url 'User_post_list' %}">Explore</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Chat</a>
+                            <a class="nav-link" href="{% url 'index' %}">Chat</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Raise_ticket</a>
+                            <a class="nav-link" href="{% url 'raise_ticket' %}">Raise_ticket</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Jobs</a>
+                            <a class="nav-link" href="{% url 'job_list' %}">Jobs</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'user_logout' %}">Logout</a>
@@ -191,7 +191,7 @@
                     <p>Subscribe to get our latest updates and offers.</p>
                   <form id="subscription-form" method="post">
                         {% csrf_token %}
-                        <input type="email" name="email" placeholder="Enter your email" required>
+                        <input style = "color : #e74c3c;" type="email" name="email" placeholder="Enter your email" required>
                         <button type="submit"><i class="fas fa-paper-plane"></i> Subscribe</button>
                         <div id="response-message" class="popup-message" style="display: none;"></div>
                     </form>

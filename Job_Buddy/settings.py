@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'Admin_Management',
     'User_Management',
     'Post',
+    'chat',
+    'Ticket_Management',
+    'Job_Management',
 
 ]
 
@@ -75,6 +78,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Job_Buddy.wsgi.application'
 
+ASGI_APPLICATION = 'Job_Buddy.asgi.application'
+# LEARN CHANNELS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -137,6 +150,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'User_Management', 'static'),  # Static files for User
     os.path.join(BASE_DIR, 'base', 'static'),  # Static files for user
 ]
+
 
 # Media files (Uploaded by users)
 MEDIA_URL = '/media/'

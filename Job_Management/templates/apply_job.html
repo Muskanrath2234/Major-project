@@ -1,0 +1,73 @@
+{% extends 'base1.html' %}
+{% block title %}Apply for {{ job.title }}{% endblock %}
+{% block content %}
+<div class="application-container">
+    <h2 class="application-title">Apply for {{ job.title }}</h2>
+    <form method="post" enctype="multipart/form-data" class="application-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-btn">Submit Application</button>
+    </form>
+</div>
+
+<style>
+    /* Styling the container */
+    .application-container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Styling the title */
+    .application-title {
+        font-size: 1.8rem;
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Styling the form */
+    .application-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .application-form input, 
+    .application-form select, 
+    .application-form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .application-form input:focus, 
+    .application-form select:focus, 
+    .application-form textarea:focus {
+        border-color:  #ff5733;
+        outline: none;
+        box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+
+    /* Styling the submit button */
+    .submit-btn {
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        color: #fff;
+        background-color:  #ff5733;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+  
+</style>
+{% endblock %}

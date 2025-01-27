@@ -13,23 +13,14 @@
 	--secondary-color: #212121;
 	--green: #81D43A;
 	--light-green: #E3FFCB;
-	--blue: #ff5733;
-	--light-blue: #dedede ;
+	--orange: #ff5733;
+	--light-blue:rgb(6, 4, 4) ;
 	--dark-blue: #ff5733;
 	--red: #FC3B56;
 	--light-grey:#F5F7F8;
 	--text-color:#717579;
 }
 
-.dark-theme {
-	--primary-color: #212121;
-	--secondary-color:  #f7f9fd;
-	--grey: #2c2c2c;
-	--light-grey:#F5F7F8;
-	--dark-grey: #5a5a5a;
-	--blue: #79a6d2;
-	--light-blue: #4c8ec6;
-}
 
 html {
 	overflow-x: hidden;
@@ -134,7 +125,7 @@ li {
 }
 #sidebar .side-menu > li > a.active,
 #sidebar .side-menu > li > a.active:hover {
-	background: var(--blue);
+	background: var(--orange);
 	color: var(--primary-color);
 }
 #sidebar .divider {

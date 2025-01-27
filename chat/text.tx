@@ -1,0 +1,18 @@
+1.settings me 
+
+WSGI_APPLICATION = 'admin.wsgi.application'
+
+ASGI_APPLICATION = 'admin.asgi.application'
+# LEARN CHANNELS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+2. url me
+3. asgi file me
+4.makemigtations
+
