@@ -287,3 +287,6 @@ def add_comment(request):
         })
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+# Create your views here.

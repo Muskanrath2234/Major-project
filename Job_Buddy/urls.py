@@ -27,6 +27,6 @@ urlpatterns = [
     path('chat', include('chat.urls')),
     path('Ticket_Management', include('Ticket_Management.urls')),
     path('Job_Management', include('Job_Management.urls')),
-    path('Alumini', include('Alumini.urls')),
+    path('Alumni', include('Alumni.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

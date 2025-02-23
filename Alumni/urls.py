@@ -1,7 +1,7 @@
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-from Alumini.views import *
+from Alumni.views import *
 
 urlpatterns = [
     path('',login_page,name="login"),

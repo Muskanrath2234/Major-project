@@ -11,12 +11,23 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Job_Buddy.settings")
 django_asgi_app = get_asgi_application()
 
 import chat.routing
+import Alumni.routing
 
-application = ProtocolTypeRouter(
-    {
-        "http": django_asgi_app,
-        "websocket": AllowedHostsOriginValidator(
-            AuthMiddlewareStack(URLRouter(chat.routing.websocket_urlpatterns))
-        ),
-    }
-)
+# application = ProtocolTypeRouter(
+#     {
+#         "http": django_asgi_app,
+#         "websocket": AllowedHostsOriginValidator(
+#             AuthMiddlewareStack(URLRouter(chat.routing.websocket_urlpatterns)),
+#             AuthMiddlewareStack(URLRouter(Alumni.routing.websocket_urlpatterns)),
+#         ),
+#     }
+# )
+
+
+application = ProtocolTypeRouter({
+    'http':get_asgi_application(),
+    'websocket':URLRouter(
+        Alumni.routing.websocket_urlpatterns,
+        chat.routing.websocket_urlpatterns
+    )
+})

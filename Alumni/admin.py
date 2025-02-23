@@ -1,5 +1,5 @@
 from django.contrib import admin
-from Alumini.models import *
+from Alumni.models import *
 # Register your models here.
 
 admin.site.register(Alumni)
