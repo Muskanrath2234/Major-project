@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'chat',
     'Ticket_Management',
     'Job_Management',
+    'Alumini',
 
 ]
 
