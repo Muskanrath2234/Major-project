@@ -3,6 +3,7 @@ from .forms import PostForm, SearchForm
 from django.contrib.auth.decorators import login_required
 from .models import User_Post
 from django.db.models import Q
+from django.http import JsonResponse
 
 # Docstring at the top summarizing the file's purpose
 """
@@ -183,3 +184,56 @@ def admin_delete_post(request, pk):
         post.delete()  # Deleting the post
         return redirect('admin_post_list')  # Redirecting to the post list page after successful deletion
     return render(request, 'admin_delete_post.html', {'post': post})  # Rendering the delete post template with the post data
+
+
+
+
+# def get_comments(request, post_id):
+#     post = get_object_or_404(User_Post, id=post_id)
+#     comments = post.comments.all().order_by('-created_at')
+
+#     comments_data = [
+#         {"user": comment.user.username, "text": comment.text, "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M")}
+#         for comment in comments
+#     ]
+    
+#     return JsonResponse({"comments": comments_data})
+
+# def add_comment(request):
+#     if request.method == "POST":
+#         post_id = request.POST.get("post_id")
+#         comment_text = request.POST.get("comment_text")
+#         post = get_object_or_404(User_Post, id=post_id)
+
+#         new_comment = Comment.objects.create(post=post, user=request.user, text=comment_text)
+
+#         return JsonResponse({
+#             "user": new_comment.user.username,
+#             "text": new_comment.text,
+#             "created_at": new_comment.created_at.strftime("%Y-%m-%d %H:%M"),
+#             "comment_count": post.comments.count(),
+#         })
+
+#     return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+
+
+# def like_post(request, post_id):
+#     post = get_object_or_404(User_Post, id=post_id)
+    
+#     # Ensure the request is a POST request for CSRF protection
+#     if request.method == 'POST':
+#         if request.user in post.like.all():
+#             post.like.remove(request.user)  # Unlike the post
+#             liked = False
+#         else:
+#             post.like.add(request.user)  # Like the post
+#             liked = True
+
+#         # Get the updated like count
+#         likes_count = post.like.count()
+#         return JsonResponse({'likes_count': likes_count, 'liked': liked})
+#     else:
+#         return JsonResponse({'error': 'Invalid request'}, status=400)
+

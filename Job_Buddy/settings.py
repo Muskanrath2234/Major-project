@@ -173,3 +173,9 @@ EMAIL_USE_SSL = False  # Don't use SSL
 EMAIL_HOST_USER = 'rathoremuskan597@gmail.com'  # Your email address
 EMAIL_HOST_PASSWORD = 'khazqxbmggwdlxic'  # Your email password'''
 
+
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]

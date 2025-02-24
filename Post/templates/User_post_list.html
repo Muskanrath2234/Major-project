@@ -1,6 +1,6 @@
 {% extends 'base1.html' %}
-
-
+<link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 {% block breadcrumb_items %}
     <!-- Add specific breadcrumb items for this page -->
     <li class="breadcrumb-item"><a href="{% url 'room_list' %}">Explore</a></li>
@@ -36,6 +36,34 @@
                 {% endif %}
                 <p style="margin-bottom: 10px;"><small>Posted by {{ post.user.username }} on {{ post.created_at }}</small></p>
                 
+                <div class="post-actions">
+                    <!-- Like Section -->
+                    <div class="like-section">
+                        <a class="like-link" style="cursor: pointer;">
+                            <i class="fa-heart {% if request.user in post.like.all %}fas{% else %}far{% endif %}" 
+                               data-post-id="{{ post.id }}" 
+                               style="cursor: pointer; font-size: 30px;"></i>
+                        </a> 
+                        <span class="like-count">{{ post.like.count }}</span>
+                    </div>
+                
+                    <!-- Comment Section -->
+                    <div class="comment-section">
+                        <a class="comment-link" data-post-id="{{ post.id }}">
+                            <i class="fa fa-comment" style="cursor: pointer; font-size: 30px;"></i>
+                        </a>
+                        <span class="comment-count">{{ post.comments.count }}</span>
+                    </div>
+                </div>
+                
+                <!-- Comment Section (Initially Hidden) -->
+                <div class="comment-container" id="comments-{{ post.id }}" style="display: none;">
+                    <div class="comment-list"></div>
+                    <textarea class="comment-input" data-post-id="{{ post.id }}" placeholder="Write a comment..."></textarea>
+                    <button class="comment-submit" data-post-id="{{ post.id }}">Send</button>
+                </div>
+                <hr>
+
                 <div style="text-align: center;">
                     {% if post.user == request.user %}  <!-- Check if the logged-in user is the owner of the post -->
                         <a href="{% url 'User_update_post' post.pk %}" style="color: #ff5733; text-decoration: none; margin-right: 15px; font-weight: bold; border: 1px solid #8E235C; border-radius: 4px; padding: 8px 16px; transition: background-color 0.3s ease, color 0.3s ease;">Edit</a>
@@ -49,4 +77,115 @@
         </ul>
     </div>
 </div>
+
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.like-link').forEach(link => {
+        link.addEventListener('click', async function (event) {
+            event.preventDefault(); // ✅ Prevent the default anchor action
+            event.stopPropagation(); // ✅ Prevent unnecessary event bubbling
+
+            const icon = this.querySelector('i'); // Get the heart icon
+            const postId = icon.getAttribute('data-post-id'); // Get post ID
+            const likeCountElement = this.nextElementSibling; // Get the like count element
+
+            try {
+                const response = await fetch(`/like/${postId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}', // CSRF token for security
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+
+                if (data.likes_count !== undefined) {
+                    likeCountElement.textContent = data.likes_count; // ✅ Update like count dynamically
+
+                    // ✅ Toggle heart icon (filled/unfilled)
+                    icon.classList.toggle('fas', data.liked);
+                    icon.classList.toggle('far', !data.liked);
+                } else {
+                    console.error('Error: Invalid response from server');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const csrfToken = "{{ csrf_token }}"; // Django CSRF token
+
+    // Toggle comment section and load comments
+    document.querySelectorAll(".comment-link").forEach(button => {
+        button.addEventListener("click", function () {
+            const postId = this.getAttribute("data-post-id");
+            const commentSection = document.getElementById(`comments-${postId}`);
+            const commentList = commentSection.querySelector(".comment-list");
+
+            if (commentSection.style.display === "none") {
+                commentSection.style.display = "block";
+
+                // Fetch comments via AJAX
+                fetch(`/get-comments/${postId}/`)
+                    .then(response => response.json())
+                    .then(data => {
+                        commentList.innerHTML = ""; // Clear previous comments
+                        data.comments.forEach(comment => {
+                            commentList.innerHTML += `<p><strong>${comment.user}:</strong> ${comment.text} <small>${comment.created_at}</small></p>`;
+                        });
+                    })
+                    .catch(error => console.error("Error:", error));
+            } else {
+                commentSection.style.display = "none";
+            }
+        });
+    });
+
+    // Prevent form submission from reloading the page
+    document.querySelectorAll(".comment-submit").forEach(button => {
+        button.addEventListener("click", function (event) {
+            event.preventDefault(); // ⛔ Prevent page reload!
+
+            const postId = this.getAttribute("data-post-id");
+            const textarea = document.querySelector(`.comment-input[data-post-id="${postId}"]`);
+            const commentText = textarea.value.trim();
+            const commentList = document.getElementById(`comments-${postId}`).querySelector(".comment-list");
+            const commentCount = document.querySelector(`.comment-link[data-post-id="${postId}"]`).nextElementSibling;
+
+            if (commentText !== "") {
+                fetch("/add-comment/", {
+                    method: "POST",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `post_id=${postId}&comment_text=${encodeURIComponent(commentText)}`,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            console.error("Error:", data.error);
+                        } else {
+                            // Add new comment dynamically without reloading
+                            commentList.innerHTML += `<p><strong>${data.user}:</strong> ${data.text} <small>${data.created_at}</small></p>`;
+
+                            // Update comment count
+                            commentCount.textContent = data.comment_count;
+
+                            // Clear textarea
+                            textarea.value = "";
+                        }
+                    })
+                    .catch(error => console.error("Error:", error));
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
