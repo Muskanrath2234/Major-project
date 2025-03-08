@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,12 +83,11 @@ WSGI_APPLICATION = 'Job_Buddy.wsgi.application'
 
 ASGI_APPLICATION = 'Job_Buddy.asgi.application'
 # LEARN CHANNELS
+
+
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
-        },
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
     },
 }
 
@@ -170,8 +171,8 @@ EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
 EMAIL_PORT = 587  # For TLS
 EMAIL_USE_TLS = True  # Use TLS
 EMAIL_USE_SSL = False  # Don't use SSL
-EMAIL_HOST_USER = 'rathoremuskan597@gmail.com'  # Your email address
-EMAIL_HOST_PASSWORD = 'khazqxbmggwdlxic'  # Your email password'''
+EMAIL_HOST_USER = 'rathoremuskan597@gmail.com'  
+EMAIL_HOST_PASSWORD = 'khazqxbmggwdlxic'  # email password'''
 
 
 

@@ -1,74 +1,96 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
-{% block extra_css %}
+{% block title %}Register{% endblock %}
 
+{% block extra_css %}
 <style>
-    /* Style the form container */
+/* Center the form with better layout */
 #register-form {
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    background-color: #f7f9fd;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
 }
 
-/* Style form elements */
+#register-form:hover {
+    transform: scale(1.02);
+}
+
+/* Style form heading */
 #register-form h2 {
     text-align: center;
     font-family: 'Playfair Display', serif;
     margin-bottom: 20px;
+    color: #333;
 }
 
+/* Label styling */
 #register-form label {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 5px;
     display: block;
+    color: #444;
 }
 
+/* Input field styling */
 #register-form input[type="text"],
 #register-form input[type="email"],
 #register-form input[type="password"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     font-size: 16px;
+
 }
 
-/* Style the button */
+#register-form input:focus {
+    border-color: #ff5733;
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 87, 51, 0.3);
+}
+
+/* Button styling */
 .register-btn {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background-color: #ff5733;
     color: #fff;
     font-size: 18px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s;
+
 }
 
 .register-btn:hover {
-    background-color: #ff5733;
+    background-color: #e04d2c;
+    transform: scale(1.05);
 }
 
-/* Add some transition effects */
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: #ff5733;
-    outline: none;
-    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+/* Error highlight */
+input.error {
+    border: 2px solid red !important;
+    animation: shake 0.3s ease-in-out;
 }
 
+/* Shake animation for error inputs */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
 </style>
-{% endblock%}
+{% endblock %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
@@ -82,8 +104,8 @@ input[type="password"]:focus {
     {{ form.as_p }}
     <button type="submit" class="register-btn">Register</button>
 </form>
-
 {% endblock %}
+
 {% block extra_js %}
 <script>
 document.getElementById('register-form').addEventListener('submit', function(event) {
@@ -93,15 +115,15 @@ document.getElementById('register-form').addEventListener('submit', function(eve
     inputs.forEach(input => {
         if (input.value.trim() === '') {
             formValid = false;
-            input.style.borderColor = 'red';
+            input.classList.add('error'); // Add error class
         } else {
-            input.style.borderColor = '#ddd';
+            input.classList.remove('error'); // Remove error class
         }
     });
 
     if (!formValid) {
         event.preventDefault();
-        alert('Please fill out all fields.');
+        alert('⚠ Please fill out all fields properly.');
     }
 });
 </script>

@@ -39,7 +39,8 @@
 				<ul class="side-dropdown">
 					<li><a href="{% url 'admin_post_list' %}">Posts</a></li>
 					
-					<li><a href="{% url 'index' %}">Chat</a></li>
+				<li><a href="{% url 'chat' request.user.username %}">Chat</a></li>
+
                     
 
 				</ul>
@@ -88,11 +89,7 @@
 				<img src="{% static 'admin_static/img/profile.jpg' %}" alt="Profile">
 
 				<ul class="profile-link">
-					<li>
-						<a href="{% url 'view_profile' %}">
-							<i class='bx bxs-user-circle icon'></i> Profile
-						</a>
-					</li>
+
 					
 					<li class="divider"></li>
 					<li>

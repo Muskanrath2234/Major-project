@@ -4,118 +4,132 @@
 {% block title %}Home{% endblock %}
 {% block extra_css %}
 <style>
+    :root {
+        --primary-color: #ffffff;
+        --secondary-color: #333333;
+        --accent-color: #007bff;
+        --hover-color: #0056b3;
+        --shadow-color: rgba(0, 0, 0, 0.1);
+    }
+
     .card-box {
         background: var(--primary-color);
-        border: 1px solid #ddd;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 20px;
+        border: none;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        border-radius: 15px;
+        padding: 25px;
         margin-bottom: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    
+
+    .card-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px var(--shadow-color);
+    }
+
     .card-box .row {
         display: flex;
         align-items: center;
     }
-    
+
     .card-box img {
         max-width: 100%;
         border-radius: 10px;
     }
-    
+
     .card-box h4 {
         color: var(--secondary-color);
-        font-size: 20px;
-        font-weight: 500;
-        margin-bottom: 10px;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 15px;
         text-transform: capitalize;
     }
-    
-  
-    .card-box h4 .user{
-        color: var(--blue);
-        font-size:25px;
-        
-        font-weight:600px;
+
+    .card-box h4 .user {
+        color: var(--accent-color);
+        font-size: 28px;
+        font-weight: 700;
     }
-    
+
     .card-box p {
         color: var(--secondary-color);
-        font-size: 18px;
+        font-size: 16px;
         max-width: 600px;
-      
+        line-height: 1.6;
     }
-    
 
-main {
-    
-    padding: 20px;
-    font-family: 'Playfair Display', serif;
-}
+    main {
+        padding: 30px;
+        font-family: 'Inter', sans-serif;
+    }
 
-.welcome {
-    text-align: center;
-    margin-bottom: 30px;
-}
+    .welcome {
+        text-align: center;
+        margin-bottom: 40px;
+    }
 
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        justify-content: center;
+    }
 
+    .card {
+        background-color: var(--primary-color);
+        border: none;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-/* Styling for the stats section */
-.stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px var(--shadow-color);
+    }
 
-.card {
-    margin-top:20px;
-    margin:10px;
-    background-color: var(--primary-color);
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    width: 250px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
+    .card h2 {
+        font-size: 1.5em;
+        margin-bottom: 15px;
+        color: var(--secondary-color);
+    }
 
-.card h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    color:var(--secondary-color);
-}
+    .card h2 a {
+        color: var(--accent-color);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
 
-.card p {
-    font-size: 1em;
-    color:var(--secondary-color);
-}
+    .card h2 a:hover {
+        color: var(--hover-color);
+    }
 
-/* Hover effect for cards */
-.card:hover {
-   
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px);
-}
+    .card p {
+        font-size: 1em;
+        color: var(--secondary-color);
+        line-height: 1.6;
+    }
 </style>
-{% endblock%}
+{% endblock %}
+
 {% block content %}
 <main>
     <div class="card-box">
         <div class="row">
             <div class="col-md-4">
-                <img src="{% static 'admin_static/img/banner-img.png' %}" alt="">
+                <img src="{% static 'admin_static/img/banner-img.png' %}" alt="Welcome Banner">
             </div>
             <div class="col-md-8">
                 <h4 class="font-20 weight-500 mb-10 text-capitalize">
-                    Welcome back <div class="user">Johnny Brown!</div>
+                    Welcome back <strong class="user">{{ request.user.username }}</strong>
                 </h4>
-                <p class="font-18 max-width-600">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde hic non repellendus debitis iure, doloremque assumenda. Autem modi, corrupti, nobis ea iure fugiat, veniam non quaerat mollitia animi error corporis.</p>
+                <p>Manage your tasks and activities efficiently with our intuitive dashboard.</p>
             </div>
         </div>
     </div>
-    
+
     <section class="stats">
         <div class="card">
             <h2><a href="{% url 'view_all_users' %}">Users</a></h2>
@@ -130,7 +144,7 @@ main {
             <p>Communicate with users</p>
         </div>
         <div class="card">
-           <h2><a href="#">Support</a></h2>
+            <h2><a href="#">Support</a></h2>
             <p>Handle support tickets and leave requests</p>
         </div>
     </section>
