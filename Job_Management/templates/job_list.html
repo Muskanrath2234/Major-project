@@ -9,7 +9,7 @@
             <h3 class="job-title">{{ job.title }}</h3>
             <p class="job-info">
                 <span><strong>Location:</strong> {{ job.job_location }}</span><br>
-                <span><strong>Deadline:</strong> {{ job.application_deadline }}</span>
+                <span><strong>Description:</strong> {{ job.Description}}</span>
             </p>
             <a href="{% url 'job_detail' job.id %}" class="view-details-btn">View Details</a>
         </div>

@@ -20,4 +20,6 @@ urlpatterns = [
 
     # Base login URL pattern
     path('base_login/', base_login, name='base_login'),  # Maps '/base_login/' URL to the 'base_login' view
+
+    path("recommendations/", job_recommendations, name="job_recommendations"),
 ]

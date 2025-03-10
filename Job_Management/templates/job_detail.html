@@ -5,10 +5,9 @@
     <h2 class="job-title">{{ job.title }}</h2>
     <div class="job-details">
         <p><strong>Location:</strong> {{ job.job_location }}</p>
-        <p><strong>Vacancies:</strong> {{ job.vacancy }}</p>
+        <p><strong>Job Role:</strong> {{ job.employment_status }}</p>
         <p><strong>Experience Required:</strong> {{ job.experience }}</p>
-        <p><strong>Salary:</strong> {{ job.salary }}</p>
-        <p><strong>Deadline:</strong> {{ job.application_deadline }}</p>
+        <p><strong>Description:</strong> {{ job.Description}}</p>
     </div>
     <a href="{% url 'apply_job' job.id %}" class="apply-btn">Apply Now</a>
 </div>

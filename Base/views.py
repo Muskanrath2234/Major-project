@@ -130,3 +130,81 @@ def contact_view(request):
         form = ContactForm()  # Initialize an empty form for GET request
 
     return render(request, 'contact.html', {'form': form})  # Render the contact page with the form
+
+
+from django.shortcuts import render
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# ✅ Debugging Function
+def debug_print(msg, data):
+    print(f"🔹 {msg}: {data}")
+
+# ✅ Job Recommendation Function
+def recommend_companies(user_location, user_job_role, user_skills, top_n=5):
+    try:
+        df = pd.read_csv("Base/static/ml_models/naukri_data_science_jobs_india.csv")
+
+        # ✅ Check if data loaded properly
+        debug_print("CSV Loaded", df.head())
+
+        # ✅ Column Renaming (Ensure Consistency)
+        df.rename(columns={"Company": "Company Name", "Skills/Description": "Required Skills"}, inplace=True)
+
+        # ✅ Ensure Required Columns Exist
+        required_columns = ["Company Name", "Job_Role", "Required Skills", "Location"]
+        missing_columns = [col for col in required_columns if col not in df.columns]
+
+        if missing_columns:
+            debug_print("Error", f"Missing Columns: {missing_columns}")
+            return []
+
+        # ✅ Filter by Location
+        filtered_jobs = df[df["Location"].str.contains(user_location, case=False, na=False)].copy()
+        debug_print("Filtered Jobs by Location", filtered_jobs.shape)
+
+        if filtered_jobs.empty:
+            return []  # No jobs found, return empty list
+
+        # ✅ Combine Job Role & Skills for Similarity
+        filtered_jobs["combined_features"] = filtered_jobs["Job_Role"] + " " + filtered_jobs["Required Skills"]
+
+        # ✅ User Profile Text
+        user_profile = f"{user_job_role} {', '.join(user_skills)}"
+        debug_print("User Profile", user_profile)
+
+        # ✅ TF-IDF Vectorization
+        vectorizer = TfidfVectorizer()
+        tfidf_matrix = vectorizer.fit_transform(filtered_jobs["combined_features"].tolist() + [user_profile])
+
+        # ✅ Compute Similarity Scores
+        similarity_scores = cosine_similarity(tfidf_matrix[-1], tfidf_matrix[:-1])
+
+        # ✅ Add Similarity Scores & Sort
+        filtered_jobs["Similarity Score"] = similarity_scores.flatten()
+        recommended_jobs = filtered_jobs.sort_values(by="Similarity Score", ascending=False).head(top_n)
+
+        debug_print("Recommended Jobs", recommended_jobs[["Company Name", "Job_Role", "Location"]])
+
+        return recommended_jobs[["Company Name", "Job_Role", "Location", "Required Skills", "Similarity Score"]].to_dict(orient="records")
+
+    except Exception as e:
+        debug_print("Exception Occurred", str(e))
+        return []
+
+# ✅ Django View
+def job_recommendations(request):
+    jobs = []
+    if request.method == "POST":
+        user_location = request.POST.get("location", "").strip()
+        user_job_role = request.POST.get("job_role", "").strip()
+        user_skills = request.POST.get("skills", "").strip().split(",")
+
+        if not user_location or not user_job_role or not user_skills:
+            debug_print("Error", "Form fields missing!")
+            return render(request, "recommendations.html", {"jobs": []})
+
+        jobs = recommend_companies(user_location, user_job_role, user_skills)
+
+    return render(request, "recommendations.html", {"jobs": jobs})

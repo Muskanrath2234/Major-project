@@ -188,8 +188,12 @@
                          <li class="nav-item">
                             <a class="nav-link" href="{% url 'User_post_list' %}">Explore</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'job_recommendations' %}">Recommendations</a>
+                        </li>
                    <li class="nav-item">
-                         <li><a href="{% url 'chat' request.user.username %}">Chat</a></li>
+                         <a href="{% url 'chat' request.user.username %}">Chat</a>
 
                      </li>
                         <li class="nav-item">
