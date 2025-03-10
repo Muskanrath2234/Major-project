@@ -179,25 +179,52 @@ def alumini_page(request):
        return render(request,'alumini.html',{'allpost':allpost})
        
 
+# def alumini_list(request):
+#     if request.method == 'POST':
+#         queryset = request.POST.get('search')
+        
+#         if queryset:
+#             # Searching alumni based on multiple fields
+#             aluminis = Alumni.objects.filter(
+#                 Q(user__username__icontains=queryset) |
+#                 Q(location__icontains=queryset) |
+#                 Q(skills__icontains=queryset) |
+#                 Q(industry__icontains=queryset)
+#             ).order_by('user__username')
+#         else:
+#             aluminis = Alumni.objects.all().order_by('user__username')
+        
+#         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
+#     else:
+#         aluminis = Alumni.objects.all().order_by('user__username')
+#         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
+
+
+
 def alumini_list(request):
+    user = request.user  # Get the logged-in user
     if request.method == 'POST':
         queryset = request.POST.get('search')
         
         if queryset:
-            # Searching alumni based on multiple fields
+            # Searching alumni based on multiple fields and excluding the current user if they are an alumnus
             aluminis = Alumni.objects.filter(
                 Q(user__username__icontains=queryset) |
                 Q(location__icontains=queryset) |
                 Q(skills__icontains=queryset) |
                 Q(industry__icontains=queryset)
-            ).order_by('user__username')
+            ).exclude(user=user).order_by('user__username')
         else:
-            aluminis = Alumni.objects.all().order_by('user__username')
+            # Fetch all alumni but exclude the logged-in user if they are an alumnus
+            aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
         
-        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
+        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
     else:
-        aluminis = Alumni.objects.all().order_by('user__username')
-        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
+        # Fetch all alumni but exclude the logged-in user if they are an alumnus
+        aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
+        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
+
+
 
 
 
