@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
@@ -9,7 +9,6 @@ from django.urls import reverse
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-
 
 
 def login_page(request):
@@ -24,9 +23,9 @@ def login_page(request):
         # Check if the username exists
         if not User.objects.filter(username=username).exists():
             messages.error(request, "Invalid Username")
-            return redirect('/') 
+            return redirect('/')
 
-        # Authenticate the user
+            # Authenticate the user
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -34,36 +33,34 @@ def login_page(request):
             return redirect('/alumini-page')
         else:
             messages.error(request, "Invalid Password")
-            return redirect('/')  
+            return redirect('/')
 
     return render(request, 'login.html')
 
 
 def Registraion_page(request):
-    if request.method =='POST':
+    if request.method == 'POST':
         firstName = request.POST.get('firstname')
         lastName = request.POST.get('lastname')
         userName = request.POST.get('username')
         password = request.POST.get('password')
 
-        user = User.objects.filter(username = userName)
+        user = User.objects.filter(username=userName)
         if user.exists():
-            messages.info(request,'Username Already taken')
+            messages.info(request, 'Username Already taken')
             return redirect('/registration-page')
-        
 
         user = User.objects.create(
-            first_name = firstName,
-            last_name = lastName,
-            username = userName
+            first_name=firstName,
+            last_name=lastName,
+            username=userName
         )
 
         user.set_password(password)
         user.save()
-        messages.info(request,'Account Created Successfully')
+        messages.info(request, 'Account Created Successfully')
         return redirect('/')
-    return render(request,'registration.html')
-
+    return render(request, 'registration.html')
 
 
 def logout_page(request):
@@ -78,23 +75,24 @@ def alumini_profile(request):
         industry = request.POST.get('industry_name')
         skills = request.POST.get('skills')
         location = request.POST.get('location')
-    
-        
+
         if Alumni.objects.filter(user=request.user).exists():
             messages.error(request, "You already have an alumni profile.")
             return redirect('/alumini-profile')
 
         alumini = Alumni.objects.create(
-            user = request.user,
-            current_role = current_role,
-            industry = industry,
-            skills = skills,
-            location = location
+            user=request.user,
+            current_role=current_role,
+            industry=industry,
+            skills=skills,
+            location=location
         )
         alumini.save()
         return redirect('alumini-profile-show', user_id=request.user.id)
 
-    return render(request,'alumini_profile.html')
+    return render(request, 'alumini_profile.html')
+
+
 def edit_alumni_profile(request):
     alumni = get_object_or_404(Alumni, user=request.user)
 
@@ -107,10 +105,9 @@ def edit_alumni_profile(request):
         alumni.save()
         print(reverse('alumini-profile-show', kwargs={'user_id': request.user.id}))
 
-
         messages.success(request, "Profile updated successfully!")
         return redirect('alumini-profile-show', user_id=request.user.id)
-    
+
     return render(request, 'alumini_edit_profile.html', {'alumni': alumni})
 
 
@@ -119,11 +116,10 @@ def alumini_profile_show(request, user_id):
     return render(request, 'alumini_profile_show.html', {'alumni': alumni})
 
 
-def delete_profile(request,user_id):
-    alumini = Alumni.objects.get(id = user_id)
+def delete_profile(request, user_id):
+    alumini = Alumni.objects.get(id=user_id)
     alumini.delete()
     return redirect('/alumini-page')
-
 
 
 def post(request):
@@ -135,20 +131,18 @@ def post(request):
         print(des)
 
         Post.objects.create(
-            alumni = request.user,
-            image = image,
-            description = des
+            alumni=request.user,
+            image=image,
+            description=des
         )
 
         return redirect('/alumini-page')
-    return render(request,'Alumnipost.html')
-
-
+    return render(request, 'Alumnipost.html')
 
 
 def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    
+
     # Ensure the request is a POST request for CSRF protection
     if request.method == 'POST':
         if request.user in post.like.all():
@@ -165,7 +159,6 @@ def like_post(request, post_id):
         return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
-
 def alumini_page(request):
     allpost = Post.objects.all().order_by('-created_at')
     if request.method == 'POST':
@@ -174,10 +167,31 @@ def alumini_page(request):
         if queryset:
             aluminis = Alumni.objects.filter(user__username__icontains=queryset)
 
-        return render(request,'alumini_list.html',{'aluminis':aluminis})
+        return render(request, 'alumini_list.html', {'aluminis': aluminis})
     else:
-       return render(request,'alumini.html',{'allpost':allpost})
-       
+        return render(request, 'alumini.html', {'allpost': allpost})
+
+
+# def alumini_list(request):
+#     if request.method == 'POST':
+#         queryset = request.POST.get('search')
+
+#         if queryset:
+#             # Searching alumni based on multiple fields
+#             aluminis = Alumni.objects.filter(
+#                 Q(user__username__icontains=queryset) |
+#                 Q(location__icontains=queryset) |
+#                 Q(skills__icontains=queryset) |
+#                 Q(industry__icontains=queryset)
+#             ).order_by('user__username')
+#         else:
+#             aluminis = Alumni.objects.all().order_by('user__username')
+
+#         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
+#     else:
+#         aluminis = Alumni.objects.all().order_by('user__username')
+#         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
+
 
 # def alumini_list(request):
 #     if request.method == 'POST':
@@ -205,7 +219,7 @@ def alumini_list(request):
     user = request.user  # Get the logged-in user
     if request.method == 'POST':
         queryset = request.POST.get('search')
-        
+
         if queryset:
             # Searching alumni based on multiple fields and excluding the current user if they are an alumnus
             aluminis = Alumni.objects.filter(
@@ -217,6 +231,7 @@ def alumini_list(request):
         else:
             # Fetch all alumni but exclude the logged-in user if they are an alumnus
             aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
+<<<<<<< HEAD
         
         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
     else:
@@ -225,7 +240,14 @@ def alumini_list(request):
         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
 
 
+=======
+>>>>>>> 6340654 (working admin)
 
+        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
+    else:
+        # Fetch all alumni but exclude the logged-in user if they are an alumnus
+        aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
+        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
 
 
 # views.py
@@ -253,12 +275,10 @@ def accept_connection(request, request_id):
 
     return JsonResponse({"success": False, "message": "Invalid request method!"}, status=400)
 
+
 def get_connection_request_count(request):
     count = Connection.objects.filter(receiver=request.user, status="Pending").count()
     return JsonResponse({"count": count})
-
-
-
 
 
 # for updated connected button, when request accepted
@@ -270,7 +290,6 @@ def send_connection_request(request, user_id):
             # WebSocket notification logic here
             return JsonResponse({'message': 'Connection request sent!', 'status': 'success'})
         return JsonResponse({'message': 'Connection request already exists!', 'status': 'exists'})
-
 
 
 @csrf_exempt
@@ -292,11 +311,13 @@ def get_comments(request, post_id):
     comments = post.comments.all().order_by('-created_at')
 
     comments_data = [
-        {"user": comment.user.username, "text": comment.text, "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M")}
+        {"user": comment.user.username, "text": comment.text,
+         "created_at": comment.created_at.strftime("%Y-%m-%d %H:%M")}
         for comment in comments
     ]
-    
+
     return JsonResponse({"comments": comments_data})
+
 
 def add_comment(request):
     if request.method == "POST":
@@ -314,6 +335,5 @@ def add_comment(request):
         })
 
     return JsonResponse({"error": "Invalid request"}, status=400)
-
 
 # Create your views here.

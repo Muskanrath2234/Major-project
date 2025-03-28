@@ -1,4 +1,5 @@
 {% extends 'base1.html' %}
+<<<<<<< HEAD
 {% block content %}
 <div class="container mt-5">
     <div class="card shadow-lg p-4">
@@ -50,3 +51,56 @@
     </div>
 </div>
 {% endblock %}
+=======
+ {% block content %}
+ <div class="container mt-5">
+     <div class="card shadow-lg p-4">
+         <h2 class="text-center mb-4" style="color: #FF5733; font-weight: bold;">Find Your Dream Job</h2>
+
+         <!-- Job Search Form -->
+         <form method="POST" class="mb-4">
+             {% csrf_token %}
+             <div class="mb-3">
+                 <label class="form-label fw-bold">Location</label>
+                 <input type="text" name="location" class="form-control" placeholder="Enter preferred location" required>
+             </div>
+
+             <div class="mb-3">
+                 <label class="form-label fw-bold">Job Role</label>
+                 <input type="text" name="job_role" class="form-control" placeholder="Enter job title" required>
+             </div>
+
+             <div class="mb-3">
+                 <label class="form-label fw-bold">Skills (comma-separated)</label>
+                 <input type="text" name="skills" class="form-control" placeholder="e.g., Python, Machine Learning, SQL" required>
+             </div>
+
+             <button type="submit" class="btn w-100" style="background-color: #FF5733; color: white; font-weight: bold;">
+                 Get Recommendations
+             </button>
+         </form>
+
+         <!-- Job Recommendations -->
+         {% if jobs %}
+             <h3 class="text-center mt-4" style="color: #FF5733; font-weight: bold;">Recommended Jobs</h3>
+             <div class="row">
+                 {% for job in jobs %}
+                     <div class="col-md-6">
+                         <div class="card mb-3 shadow-sm border-0">
+                             <div class="card-body" style="border-left: 5px solid #FF5733;">
+                                 <h5 class="card-title" style="color: #FF5733; font-weight: bold;">{{ job.Company_Name }}</h5>
+                                 <p><strong>Job Role:</strong> {{ job.Job_Role }}</p>
+                                 <p><strong>Location:</strong> {{ job.Location }}</p>
+                                 <p><strong>Required Skills:</strong> {{ job.Required_Skills }}</p>
+                             </div>
+                         </div>
+                     </div>
+                 {% endfor %}
+             </div>
+         {% else %}
+             <p class="text-center mt-4" style="color: #FF5733; font-weight: bold;">No recommendations found. Try entering different skills.</p>
+         {% endif %}
+     </div>
+ </div>
+ {% endblock %}
+>>>>>>> 6340654 (working admin)

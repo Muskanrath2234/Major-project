@@ -7,6 +7,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from .forms import ContactForm
+from django.shortcuts import render
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Landing page view
 def landing(request):
@@ -132,15 +136,24 @@ def contact_view(request):
     return render(request, 'contact.html', {'form': form})  # Render the contact page with the form
 
 
+<<<<<<< HEAD
 from django.shortcuts import render
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+=======
+
+
+>>>>>>> 6340654 (working admin)
 
 # ✅ Debugging Function
 def debug_print(msg, data):
     print(f"🔹 {msg}: {data}")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6340654 (working admin)
 # ✅ Job Recommendation Function
 def recommend_companies(user_location, user_job_role, user_skills, top_n=5):
     try:
@@ -187,12 +200,21 @@ def recommend_companies(user_location, user_job_role, user_skills, top_n=5):
 
         debug_print("Recommended Jobs", recommended_jobs[["Company Name", "Job_Role", "Location"]])
 
+<<<<<<< HEAD
         return recommended_jobs[["Company Name", "Job_Role", "Location", "Required Skills", "Similarity Score"]].to_dict(orient="records")
+=======
+        return recommended_jobs[
+            ["Company Name", "Job_Role", "Location", "Required Skills", "Similarity Score"]].to_dict(orient="records")
+>>>>>>> 6340654 (working admin)
 
     except Exception as e:
         debug_print("Exception Occurred", str(e))
         return []
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6340654 (working admin)
 # ✅ Django View
 def job_recommendations(request):
     jobs = []
@@ -207,4 +229,8 @@ def job_recommendations(request):
 
         jobs = recommend_companies(user_location, user_job_role, user_skills)
 
+<<<<<<< HEAD
     return render(request, "recommendations.html", {"jobs": jobs})
+=======
+    return render(request, "recommendations.html", {"jobs": jobs})
+>>>>>>> 6340654 (working admin)
