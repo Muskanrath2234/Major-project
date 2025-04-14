@@ -37,24 +37,24 @@
                 <p style="margin-bottom: 10px;"><small>Posted by {{ post.user.username }} on {{ post.created_at }}</small></p>
                 
                 <div class="post-actions">
-                    <!-- Like Section -->
-                    <div class="like-section">
-                        <a class="like-link" style="cursor: pointer;">
-                            <i class="fa-heart {% if request.user in post.like.all %}fas{% else %}far{% endif %}" 
-                               data-post-id="{{ post.id }}" 
-                               style="cursor: pointer; font-size: 30px;"></i>
-                        </a> 
-                        <span class="like-count">{{ post.like.count }}</span>
-                    </div>
+<!--                    &lt;!&ndash; Like Section &ndash;&gt;-->
+<!--                    <div class="like-section">-->
+<!--                        <a class="like-link" style="cursor: pointer;">-->
+<!--                            <i class="fa-heart {% if request.user in post.like.all %}fas{% else %}far{% endif %}" -->
+<!--                               data-post-id="{{ post.id }}" -->
+<!--                               style="cursor: pointer; font-size: 30px;"></i>-->
+<!--                        </a> -->
+<!--                        <span class="like-count">{{ post.like.count }}</span>-->
+<!--                    </div>-->
                 
-                    <!-- Comment Section -->
-                    <div class="comment-section">
-                        <a class="comment-link" data-post-id="{{ post.id }}">
-                            <i class="fa fa-comment" style="cursor: pointer; font-size: 30px;"></i>
-                        </a>
-                        <span class="comment-count">{{ post.comments.count }}</span>
-                    </div>
-                </div>
+<!--                    &lt;!&ndash; Comment Section &ndash;&gt;-->
+<!--                    <div class="comment-section">-->
+<!--                        <a class="comment-link" data-post-id="{{ post.id }}">-->
+<!--                            <i class="fa fa-comment" style="cursor: pointer; font-size: 30px;"></i>-->
+<!--                        </a>-->
+<!--                        <span class="comment-count">{{ post.comments.count }}</span>-->
+<!--                    </div>-->
+<!--                </div>-->
                 
                 <!-- Comment Section (Initially Hidden) -->
                 <div class="comment-container" id="comments-{{ post.id }}" style="display: none;">

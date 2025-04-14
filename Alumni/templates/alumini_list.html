@@ -31,7 +31,7 @@
             </ul>
             <form class="d-flex" role="search" method="post">
               {% csrf_token %}
-              <a style="padding:10px;font-size: 30px;" href="/alumini-profile"><i class='bx bxs-user-circle'></i></a>
+              <a style="padding:10px;font-size: 30px;" href="{% url 'alumni-profile' %}"><i class='bx bxs-user-circle'></i></a>
               <input class="form-control me-2" type="search" placeholder="Search" name="search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>

@@ -12,179 +12,143 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Landing page view
 def landing(request):
     return render(request, 'landing.html')
 
-# About page view
 def about(request):
     return render(request, 'about.html')
 
-# Contact page view
 def contact(request):
     return render(request, 'contact.html')
 
-# Service page view
 def service(request):
     return render(request, 'services.html')
 
-# Subscribe view for handling email subscription
-@csrf_exempt  # Disables CSRF protection for this view (be cautious with this)
+@csrf_exempt
 def subscribe(request):
-    if request.method == 'POST':  # Check if the request is a POST request
-        email = request.POST.get('email')  # Get the email from the form submission
+    if request.method == 'POST':
+        email = request.POST.get('email')
         if email:
-            # Try to get or create a subscription for the given email
             subscription, created = Subscription.objects.get_or_create(email=email)
             if created:
                 try:
-                    # Send notification email to admin
                     send_mail(
                         'New Subscription',
                         f'A new subscription request has been received from {email}.',
-                        'akankshamarathe19@gmail.com',  # Admin's email
-                        ['akankshamarathe19@gmail.com'],  # List of recipients (admin)
-                        fail_silently=False,  # Ensures failure raises an error
+                        'akankshamarathe19@gmail.com',
+                        ['akankshamarathe19@gmail.com'],
+                        fail_silently=False,
                     )
 
-                    # Generate a PDF with subscription details
                     pdf_buffer = generate_pdf(email)
 
-                    # Create an email message to send to the subscriber
                     email_subject = "Subscription Confirmation"
                     email_body = f"Dear {email},\n\nThank you for subscribing to our service. Please find attached a confirmation PDF with your subscription details.\n\nBest regards,\nYour Company Name"
                     email_message = EmailMessage(
                         email_subject,
                         email_body,
-                        'akankshamarathe19@gmail.com',  # Sender's email
-                        [email],  # Recipient's email (subscriber)
+                        'akankshamarathe19@gmail.com',
+                        [email],
                     )
-                    # Attach the generated PDF to the email
                     email_message.attach('subscription_details.pdf', pdf_buffer.read(), 'application/pdf')
-                    email_message.send()  # Send the email
+                    email_message.send()
 
-                    # Return a success response with a message
-                    return JsonResponse(
-                        {'status': 'success', 'message': 'Subscription successful. Check your email for confirmation.'})
+                    return JsonResponse({'status': 'success', 'message': 'Subscription successful. Check your email for confirmation.'})
                 except Exception as e:
-                    # Return an error response if email sending fails
                     return JsonResponse({'status': 'error', 'message': f'Failed to send email: {str(e)}'}, status=500)
             else:
-                # Return error if the email is already subscribed
                 return JsonResponse({'status': 'error', 'message': 'You have already subscribed.'}, status=400)
 
-        # Return error if no email was provided
         return JsonResponse({'status': 'error', 'message': 'Email not provided.'}, status=400)
 
-    # Return error if the request method is not POST
     return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405)
 
-# Function to generate a PDF with subscription details
 def generate_pdf(email):
-    pdf_buffer = io.BytesIO()  # Create an in-memory buffer for the PDF
-    p = canvas.Canvas(pdf_buffer)  # Create a canvas to draw the PDF
-    p.drawString(100, 750, f"Subscription Confirmation")  # Add text to the PDF
+    pdf_buffer = io.BytesIO()
+    p = canvas.Canvas(pdf_buffer)
+    p.drawString(100, 750, f"Subscription Confirmation")
     p.drawString(100, 730, f"Thank you for subscribing to our service.")
     p.drawString(100, 710, f"Email: {email}")
-    p.showPage()  # End the current page
-    p.save()  # Save the canvas (finalize the PDF)
-    pdf_buffer.seek(0)  # Move buffer position to the start for reading
-    return pdf_buffer  # Return the PDF buffer
+    p.showPage()
+    p.save()
+    pdf_buffer.seek(0)
+    return pdf_buffer
 
-# Login view for base user login (admin or regular user)
 def base_login(request):
-    if request.method == 'POST':  # Check if the request is a POST request
-        username = request.POST.get('username')  # Get username from form
-        password = request.POST.get('password')  # Get password from form
-        role = request.POST.get('role')  # Get role (admin or user)
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
 
-        # Authenticate the user
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            if role == 'admin' and user.is_superuser:  # If the role is admin and user is superuser
-                auth_login(request, user)  # Log the admin user in
-                messages.info(request, f'{username}, You are logged in as Admin.')  # Show success message
-                return redirect('home')  # Redirect to the admin home page
-            elif role == 'user' and not user.is_superuser:  # If the role is user and not a superuser
-                auth_login(request, user)  # Log the regular user in
-                messages.info(request, f'{username}, You are logged in as User.')  # Show success message
-                return redirect('User_post_list')  # Redirect to user posts page
+            if role == 'admin' and user.is_superuser:
+                auth_login(request, user)
+                messages.info(request, f'{username}, You are logged in as Admin.')
+                return redirect('home')
+            elif role == 'user' and not user.is_superuser:
+                auth_login(request, user)
+                messages.info(request, f'{username}, You are logged in as User.')
+                return redirect('User_post_list')
             else:
-                messages.error(request, 'Invalid login credentials for the selected role.')  # Error for role mismatch
-                return redirect('base_login')  # Redirect back to the login page
+                messages.error(request, 'Invalid login credentials for the selected role.')
+                return redirect('base_login')
         else:
-            messages.error(request, 'Wrong username or password.')  # Error for invalid credentials
-            return redirect('base_login')  # Redirect back to the login page
+            messages.error(request, 'Wrong username or password.')
+            return redirect('base_login')
 
-    return render(request, 'base_login.html')  # Render the login page if GET request
+    return render(request, 'base_login.html')
 
-# Contact form view to handle message submission
-from django.db import transaction  # Import transaction management for atomic operations
+from django.db import transaction
+
 def contact_view(request):
-    if request.method == 'POST':  # Check if the request is a POST request
-        form = ContactForm(request.POST)  # Get the form data from POST request
-        if form.is_valid():  # Check if the form is valid
-            with transaction.atomic():  # Ensure atomicity of database operations
-                form.save()  # Save the form data to the database
-            messages.success(request, 'Your message has been sent successfully!')  # Show success message
-            return redirect('contact')  # Redirect to the contact page
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic():
+                form.save()
+            messages.success(request, 'Your message has been sent successfully!')
+            return redirect('contact')
         else:
-            messages.error(request, 'Please correct the errors in the form.')  # Show error message for invalid form
+            messages.error(request, 'Please correct the errors in the form.')
     else:
-        form = ContactForm()  # Initialize an empty form for GET request
+        form = ContactForm()
 
-    return render(request, 'contact.html', {'form': form})  # Render the contact page with the form
+    return render(request, 'contact.html', {'form': form})
 
-
-<<<<<<< HEAD
-from django.shortcuts import render
-import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-=======
-
-
->>>>>>> 6340654 (working admin)
-
-# ✅ Debugging Function
 def debug_print(msg, data):
     print(f"🔹 {msg}: {data}")
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6340654 (working admin)
-# ✅ Job Recommendation Function
 def recommend_companies(user_location, user_job_role, user_skills, top_n=5):
     try:
-        df = pd.read_csv("Base/static/ml_models/naukri_data_science_jobs_india.csv")
+        import os
+        from django.conf import settings
 
-        # ✅ Check if data loaded properly
+        # ✅ Load CSV File with Absolute Path
+        csv_path = os.path.join(settings.BASE_DIR, "Base/static/ml_models/naukri_data_science_jobs_india.csv")
+        df = pd.read_csv(csv_path)
+
         debug_print("CSV Loaded", df.head())
 
-        # ✅ Column Renaming (Ensure Consistency)
-        df.rename(columns={"Company": "Company Name", "Skills/Description": "Required Skills"}, inplace=True)
+        # ✅ Normalize Column Names
+        required_columns = ["Job_Role", "Company", "Location", "Skills/Description"]
+        df.rename(columns={"Skills/Description": "Required_Skills"}, inplace=True)
 
-        # ✅ Ensure Required Columns Exist
-        required_columns = ["Company Name", "Job_Role", "Required Skills", "Location"]
-        missing_columns = [col for col in required_columns if col not in df.columns]
+        # ✅ Normalize Location for Filtering
+        user_location = user_location.strip().lower()
+        df["Location"] = df["Location"].str.lower().str.strip()
 
-        if missing_columns:
-            debug_print("Error", f"Missing Columns: {missing_columns}")
-            return []
-
-        # ✅ Filter by Location
-        filtered_jobs = df[df["Location"].str.contains(user_location, case=False, na=False)].copy()
+        filtered_jobs = df[df["Location"].str.contains(user_location, na=False)]
         debug_print("Filtered Jobs by Location", filtered_jobs.shape)
 
         if filtered_jobs.empty:
-            return []  # No jobs found, return empty list
+            debug_print("No jobs found", "Try another location")
+            return []
 
         # ✅ Combine Job Role & Skills for Similarity
-        filtered_jobs["combined_features"] = filtered_jobs["Job_Role"] + " " + filtered_jobs["Required Skills"]
-
-        # ✅ User Profile Text
+        filtered_jobs["combined_features"] = filtered_jobs["Job_Role"] + " " + filtered_jobs["Required_Skills"]
         user_profile = f"{user_job_role} {', '.join(user_skills)}"
+
         debug_print("User Profile", user_profile)
 
         # ✅ TF-IDF Vectorization
@@ -198,24 +162,14 @@ def recommend_companies(user_location, user_job_role, user_skills, top_n=5):
         filtered_jobs["Similarity Score"] = similarity_scores.flatten()
         recommended_jobs = filtered_jobs.sort_values(by="Similarity Score", ascending=False).head(top_n)
 
-        debug_print("Recommended Jobs", recommended_jobs[["Company Name", "Job_Role", "Location"]])
+        debug_print("Recommended Jobs", recommended_jobs[["Company", "Job_Role", "Location"]])
 
-<<<<<<< HEAD
-        return recommended_jobs[["Company Name", "Job_Role", "Location", "Required Skills", "Similarity Score"]].to_dict(orient="records")
-=======
-        return recommended_jobs[
-            ["Company Name", "Job_Role", "Location", "Required Skills", "Similarity Score"]].to_dict(orient="records")
->>>>>>> 6340654 (working admin)
+        return recommended_jobs[["Company", "Job_Role", "Location", "Required_Skills", "Similarity Score"]].to_dict(orient="records")
 
     except Exception as e:
         debug_print("Exception Occurred", str(e))
         return []
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6340654 (working admin)
-# ✅ Django View
 def job_recommendations(request):
     jobs = []
     if request.method == "POST":
@@ -229,8 +183,4 @@ def job_recommendations(request):
 
         jobs = recommend_companies(user_location, user_job_role, user_skills)
 
-<<<<<<< HEAD
     return render(request, "recommendations.html", {"jobs": jobs})
-=======
-    return render(request, "recommendations.html", {"jobs": jobs})
->>>>>>> 6340654 (working admin)

@@ -196,7 +196,7 @@ def alumini_page(request):
 # def alumini_list(request):
 #     if request.method == 'POST':
 #         queryset = request.POST.get('search')
-        
+
 #         if queryset:
 #             # Searching alumni based on multiple fields
 #             aluminis = Alumni.objects.filter(
@@ -207,7 +207,7 @@ def alumini_page(request):
 #             ).order_by('user__username')
 #         else:
 #             aluminis = Alumni.objects.all().order_by('user__username')
-        
+
 #         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': request.user.id})
 #     else:
 #         aluminis = Alumni.objects.all().order_by('user__username')
@@ -231,23 +231,19 @@ def alumini_list(request):
         else:
             # Fetch all alumni but exclude the logged-in user if they are an alumnus
             aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
-<<<<<<< HEAD
-        
-        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
-    else:
-        # Fetch all alumni but exclude the logged-in user if they are an alumnus
-        aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
-        return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
-
-
-=======
->>>>>>> 6340654 (working admin)
 
         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
     else:
         # Fetch all alumni but exclude the logged-in user if they are an alumnus
         aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
         return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
+
+
+    #     # return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
+    # else:
+    #     # Fetch all alumni but exclude the logged-in user if they are an alumnus
+    #     aluminis = Alumni.objects.exclude(user=user).order_by('user__username')
+    #     return render(request, 'alumini_list.html', {'aluminis': aluminis, 'user_id': user.id})
 
 
 # views.py

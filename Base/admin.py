@@ -1,6 +1,5 @@
 # Importing required modules from Django
-from django.contrib import admin  # To register models with Django admin
-from .views import *  # Importing views (though not typically needed here)
+from django.contrib import admin  # To register models with Django admin # Importing views (though not typically needed here)
 from .models import *  # Importing models to register them with the admin interface
 
 # Customizing the site header of the admin interface

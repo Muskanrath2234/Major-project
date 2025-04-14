@@ -183,23 +183,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-end">
                  {% if user.is_authenticated %}
-                         <li class="nav-item">
-                            <a class="nav-link" href="#">Profile</a>
-                        </li>
+<!--                         <li class="nav-item">-->
+<!--                            <a class="nav-link" href="#">Profile</a>-->
+<!--                        </li>-->
                          <li class="nav-item">
                             <a class="nav-link" href="{% url 'User_post_list' %}">Explore</a>
                         </li>
 
-<<<<<<< HEAD
-                        <li class="nav-item">
+           <li class="nav-item">
                             <a class="nav-link" href="{% url 'job_recommendations' %}">Recommendations</a>
                         </li>
-=======
-                         <li class="nav-item">
-                             <a class="nav-link" href="{% url 'job_recommendations' %}">Recommendations</a>
-                         </li>
 
->>>>>>> 6340654 (working admin)
+<!--                         <li class="nav-item">-->
+<!--                             <a class="nav-link" href="{% url 'job_recommendations' %}">Recommendations</a>-->
+<!--                         </li>-->
+
                    <li class="nav-item">
                          <a href="{% url 'chat' request.user.username %}">Chat</a>
 
@@ -207,9 +205,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'raise_ticket' %}">Raise_ticket</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'job_list' %}">Jobs</a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a class="nav-link" href="{% url 'job_list' %}">Jobs</a>-->
+<!--                        </li>-->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'alumini_list' %}">Alumini</a>
                         </li>
@@ -225,9 +223,7 @@
                             <a class="nav-link" href="{% url 'about' %}">About</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Jobs</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'service' %}">Service</a>
                         </li>
